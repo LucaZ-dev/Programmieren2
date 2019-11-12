@@ -37,6 +37,49 @@ QueueObject::QueueObject()
                 delete pTemp;
             }
         }
+
+        int operator[] (int index) const {
+            QueueData* temp = pRoot;
+            for(int i = 1; i<=index; ++i) {
+                temp = temp->pNext;
+            }
+
+            return temp->iData;
+        }
+
+        int search (int index) {
+            QueueData* temp = pRoot;
+            int searchcounter = 0;
+            while(true) {
+                if (temp->iData == index) {
+                    ++searchcounter;
+                    temp = temp->pNext;
+                    if (temp == nullptr) {
+                        return -1;
+                    }
+                } else {
+                    return searchcounter+1;
+                }
+            }
+        }
+        bool deletion(int index) {
+            int value = search(index);
+            if (value == -1) {
+                return false;
+            }
+            QueueData* temp = pRoot;
+            QueueData* temp2 = pRoot;
+
+            temp = temp->pNext;
+
+            for (int i = 0; i<= value; ++i) {
+                temp = temp->pNext;
+                temp2 = temp2->pNext;
+            }
+            temp2->pNext = temp->pNext;
+            delete temp;
+        }
+
     };
 
 }
