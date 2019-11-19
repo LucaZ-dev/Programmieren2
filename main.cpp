@@ -1,9 +1,13 @@
 #include <iostream>
+#include <queueobject.cpp>
 
 using namespace std;
 
 int main()
 {
     cout << "Hello World!" << endl;
-    return 0;
+    Queue Q;
+    Q.insert(100);
+    cout << Q.getNext() << endl;
+
 }

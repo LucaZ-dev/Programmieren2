@@ -1,13 +1,15 @@
-#include "queueobject.h"
+#include <iostream>
+
+using namespace std;
 
     class Queue {
 
-        int iFilled;
         int iLength= 2;
+        int iFilled = iLength;
         class QueueData {
 
         public:
-            int iData;
+            int iData = 0;
             QueueData* pNext;
         };
         QueueData* pRoot;
@@ -15,19 +17,20 @@
     public:
         Queue() {
             pRoot = new QueueData[iLength];
+            pRoot->iData = 0;
         }
 
         int getNext() {
             int iNext = pRoot->iData;
-            QueueData* temp = pRoot;
-            pRoot = pRoot->pNext;
+            QueueData* temp;
+            temp = pRoot->pNext;
             iFilled--;
             delete temp;
             return iNext;
         }
 
         bool insert(int iData) {
-            if(pRoot == nullptr) {
+            if(pRoot->iData == 0) {
                 pRoot->iData = iData;
                 return true;
             } else {
