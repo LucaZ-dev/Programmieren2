@@ -20,9 +20,23 @@ QueueObject::QueueObject()
 
         int getNext() {
             int iNext = pRoot->iData;
+            QueueData* temp = pRoot;
             pRoot = pRoot->pNext;
             iFilled--;
+            delete temp;
             return iNext;
+        }
+
+        bool insert(int iData) {
+            if(pRoot == nullptr)
+                pRoot->iData = iData;
+            else {
+                QueueData* temp = pRoot;
+                while(temp != nullptr) {
+                    temp = temp->pNext;
+                }
+                temp->iData = iData;
+            }
         }
 
         void extend() {
@@ -34,7 +48,7 @@ QueueObject::QueueObject()
                     pTemp[i].pNext = pRoot[i].pNext;
                 }
                 pRoot = pTemp;
-                delete pTemp;
+                delete[] pTemp;
             }
         }
 
@@ -78,6 +92,7 @@ QueueObject::QueueObject()
             }
             temp2->pNext = temp->pNext;
             delete temp;
+            return true;
         }
 
     };
