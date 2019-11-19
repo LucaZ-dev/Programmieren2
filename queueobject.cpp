@@ -1,8 +1,6 @@
 #include "queueobject.h"
 
-QueueObject::QueueObject()
-{
-    class QueueObject {
+    class Queue {
 
         int iFilled;
         int iLength= 2;
@@ -14,7 +12,8 @@ QueueObject::QueueObject()
         };
         QueueData* pRoot;
 
-        QueueObject() {
+    public:
+        Queue() {
             pRoot = new QueueData[iLength];
         }
 
@@ -28,17 +27,19 @@ QueueObject::QueueObject()
         }
 
         bool insert(int iData) {
-            if(pRoot == nullptr)
+            if(pRoot == nullptr) {
                 pRoot->iData = iData;
-            else {
+                return true;
+            } else {
                 QueueData* temp = pRoot;
                 while(temp != nullptr) {
                     temp = temp->pNext;
                 }
                 temp->iData = iData;
+                return true;
             }
         }
-
+    private:
         void extend() {
             if(iFilled * 0.9 > iLength) {
                 iLength*=2;
@@ -51,7 +52,7 @@ QueueObject::QueueObject()
                 delete[] pTemp;
             }
         }
-
+    public:
         int operator[] (int index) const {
             QueueData* temp = pRoot;
             for(int i = 1; i<=index; ++i) {
@@ -96,5 +97,3 @@ QueueObject::QueueObject()
         }
 
     };
-
-}
