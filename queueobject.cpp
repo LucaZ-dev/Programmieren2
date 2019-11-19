@@ -3,29 +3,32 @@
 using namespace std;
 
     class Queue {
-
-        int iLength= 2;
-        int iFilled = iLength;
         class QueueData {
 
         public:
             int iData = 0;
             QueueData* pNext;
+
+            QueueData(int data = 0) {
+                iData = data;
+            }
+
+
         };
         QueueData* pRoot;
 
     public:
         Queue() {
-            pRoot = new QueueData[iLength];
-            pRoot->iData = 0;
+            pRoot = new QueueData();
         }
+
 
         int getNext() {
             int iNext = pRoot->iData;
             QueueData* temp;
             temp = pRoot->pNext;
-            iFilled--;
-            delete temp;
+            delete pRoot;
+            pRoot = temp;
             return iNext;
         }
 
@@ -35,27 +38,28 @@ using namespace std;
                 return true;
             } else {
                 QueueData* temp = pRoot;
-                while(temp != nullptr) {
+                while(temp->pNext != nullptr) {
                     temp = temp->pNext;
                 }
-                temp->iData = iData;
+                temp->pNext = new QueueData(iData);
                 return true;
             }
         }
     private:
-        void extend() {
-            if(iFilled * 0.9 > iLength) {
-                iLength*=2;
-                QueueData* pTemp = new QueueData[iLength];
-                for (int i = 0; iLength >= i; ++i) {
-                    pTemp[i].iData = pRoot[i].iData;
-                    pTemp[i].pNext = pRoot[i].pNext;
-                }
-                pRoot = pTemp;
-                delete[] pTemp;
-            }
-        }
-    public:
+//        void extend() {
+//            if(iFilled * 0.9 > iLength) {
+  //              cout << "extending" << endl;
+  //              iLength*=2;
+    //            QueueData* pTemp = new QueueData[iLength];
+      //          for (int i = 0; iLength >= i; ++i) {
+        //            pTemp[i].iData = pRoot[i].iData;
+          //          pTemp[i].pNext = pRoot[i].pNext;
+            //    }
+              //  pRoot = pTemp;
+                //delete[] pTemp;
+            //}
+        //}
+public:
         int operator[] (int index) const {
             QueueData* temp = pRoot;
             for(int i = 1; i<=index; ++i) {
@@ -69,7 +73,7 @@ using namespace std;
             QueueData* temp = pRoot;
             int searchcounter = 0;
             while(true) {
-                if (temp->iData == index) {
+                if (temp->iData != index) {
                     ++searchcounter;
                     temp = temp->pNext;
                     if (temp == nullptr) {
@@ -85,17 +89,21 @@ using namespace std;
             if (value == -1) {
                 return false;
             }
+            --value;
             QueueData* temp = pRoot;
-            QueueData* temp2 = pRoot;
+            QueueData* temp2 = pRoot->pNext;
+            if(value == 0){
+                delete pRoot;
+                pRoot = temp2;
+            }
 
-            temp = temp->pNext;
-
-            for (int i = 0; i<= value; ++i) {
+            for(int i = 1; i<value; ++i){
                 temp = temp->pNext;
                 temp2 = temp2->pNext;
             }
-            temp2->pNext = temp->pNext;
-            delete temp;
+            cout << "OwO" << endl;
+            delete temp->pNext;
+            temp->pNext = temp2->pNext;
             return true;
         }
 
