@@ -1,0 +1,122 @@
+Pointer
+	Speicheradresse von x erhält man durch &x
+	Pointer Syntax: int* variablenname
+	
+	int x = 20;
+	int* y = &x;
+		*y ist 20
+	x = 30;	
+		*y ist jetzt 30
+		
+	Pointer auf Funktion:
+		int f(char c, int i)
+		int (*x)(char, int)
+			Deklaration von x.
+		x = &f
+			f wird x zugewiesen.
+		int y = (*x)('a', 34)
+			y wird der Wert der bei x rauskommt zugewiesen.
+			
+	Pointer-Pointer
+	int** x;
+		x zeigt auf einen Pointer der auf ein int zeigt.
+		
+Typedef
+	typedef unsigned char uchar;
+	uchar x;
+	
+Referenzen
+	int x;
+	int& y = x;
+	
+Structs
+	struct Adresse {
+		char* name;
+		char* vorname;
+		unsigned matrikelnummer;
+		};
+		Adresse a.
+			
+			Zugriff mit a.name, a.vorname und a.matrikelnummer
+			Kein new notwendig, object schon erzeugt.
+	Constructor:
+		Adresse(const char* p, unsigned nr) {
+		name = p;
+		matrikelnummer = nr;						
+		}
+	
+	Deconstructor:
+		~Adresse() {
+		cout << "Ich bin tot" << endl;			
+		
+Konstanten
+	const int* j = &i;
+		const dichter an int als an * -> Konstante Variable.
+	int* const j = &i;
+		const dichter and * als an int -> Konstanter Pointer
+	int i;
+	const int& j = i;		
+		j kann nicht verändert werden, Read-Only.
+		
+		
+Vererbung
+	Class <KlassenName1> : [<Zugriffsrecht>] <KlassenName2>
+		Klassenname1 erbt von KlassenName2
+		Wenn Zugriffsrecht nicht vorhanden -> private
+		
+		Initialisierung erst Basisklasse, dann abgeleitete Klasse
+		Member nach Basisklasse und vor Constructor initialisiert
+		Deconstructor umgekehrte Reihenfolge.
+		
+		Wenn von Basisklasse nicht-trivialer Constructor verwendet werden soll, muss das angegeben sein.
+			class A : B {
+				A(int i) : B(i), m_c(2*1){
+				...
+				}
+				c m_c;
+			};		
+			
+Sichtbarkeit und Rechte
+	public:
+		Rechte werden übernommen
+	protected:
+		Sichtbar in direkt und indirekt abgeleiteten Klassen, sonst unsichtbar		
+	private:		
+		Nur in direkt abgeleiteten Klassen sichtbar, sonst unsichtbar
+		
+			
+		class Base {
+			public: void doitPublic() {}
+			protected: void doitProtected() {}
+			private: void doitPrivate() {}
+			};
+
+		class DerivedPublic : public Base {
+		public:
+			void doit() {
+				doitPublic();
+				doitProtected();
+				doitPrivate(); // illegal
+			}
+		};
+
+		class DDerivedPublic: public DerivedPublic {
+		public:
+			void doit() {
+				doitPublic();
+				doitProtected();
+				doitPrivate(); // illegal
+			}
+		};
+
+		int main() {
+			DerivedPublic dPub;
+			
+			dPub.doitPublic();
+			dPub.doitProtected(); // illegal
+			dPub.doitPrivate(); // illegal	
+		...
+		}
+		
+Virtuelle Methoden:
+e				
