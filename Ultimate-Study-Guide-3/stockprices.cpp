@@ -3,6 +3,7 @@
 using namespace std;
 
 class stockprices {
+public:
     void calc()
     {
         // int stock[] = {4, 6, 4, 8, 4};
