@@ -21,4 +21,21 @@ class product {
     cout << max << endl;
   }
 
+    void everyvalue(int* arr, int len) {
+        long result[len];
+        for(int i = 0; i < len; ++i) {
+            result[i] = 1;
+            for(int j = 0; j < len; ++j) {
+                if(j != i) {
+                    result[i] = result[i]*arr[j];
+                }
+            }
+        }
+        for(int i = 0; i < len; ++i) {
+            cout << result[i] << endl;
+        }
+
+
+    }
+
 };

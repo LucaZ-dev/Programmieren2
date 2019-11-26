@@ -8,6 +8,7 @@ int main()
 {
     int arr[] = {1,2,3,4,5,6,7,8,9};
     product p;
-    p.calc(arr, sizeof(arr)/sizeof(*arr));
+    //p.calc(arr, sizeof(arr)/sizeof(*arr));
+    p.everyvalue(arr, sizeof(arr)/sizeof(*arr));
     return 0;
 }
