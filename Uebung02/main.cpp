@@ -21,9 +21,6 @@ public:
         }
     }
 
-
-
-
     void swap(int& a, int& b) {
         int temp = a;
         a = b;
@@ -35,11 +32,16 @@ public:
             cout << arr[l] << "\t";
         cout << endl;
     }
-
 };
 
 class selectionsort{
 
+
+
+    // Suche Max in Len
+    // Max mit letztem Element tauschen
+    // --len
+    // Go to step 1
 };
 
 class isnertionsort{
