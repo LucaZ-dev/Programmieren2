@@ -119,4 +119,169 @@ Sichtbarkeit und Rechte
 		}
 		
 Virtuelle Methoden:
+	Standard: Keine Methode virtuell
+	Um virtuell zu machen 'virtuell' vor die Methode schreiben
+	Virtualität (virtual dispatcher) kostet viel Speicherplatz und Laufzeit
+	
+	Kosten für virtuelle Methoden in Klasse A:
+		Ein Verweis pro A-Objekt auf die virtual Table
+		4 Byte in 32 Bit Architektur
+		8 Byte in 64 Bit Architektur
+		
+	Virtuelle Dekonstruktoren
+		class A { ... };
+		class B : public A { ... };
+		...
+		A* p = new B();
+		...
+		delete p;
+		
+		Hier muss zur Laufzeit entschieden werden (virtual dispatcher) welcher Destruktor aufzurufen ist
+		In diesem Fall muss der Destruktor virtuell sein.
+		In Ableitungshierarchien sind die Dekonstuktoren meistens virtuell, es reicht wenn der Basisdestruktor virtuell ist.
+		
+		
+Abstrakte Klassen
+	Klasse ist automatisch abstrakt wenn eine Methode abstrakt ist oder eine Klasse von einer abstrakten abgeleitet ist und nicht alle abstrakten Methoden implementiert wurden.
+	Von Abstrakten Klassen können keine Objekte erzeugt werden
+	
+	Beispiel abstrakte Methoden
+		virtual void doit() = 0
+		virtual void makeit() = 0;		
+		
+
+Slicing Problem
+	Übergabe von Objekten abgeleiteter Klassen
+		call-by-reference 	-> Objekt wird übergeben
+		call-by-value 		-> Kopie des Objekts wird übergeben, Wenn Typ des Parameters nicht mit Typ des Objektes übereinstimmt wird nur Objektanteil bzw. Objektanteil des niedrigeren Typen kopiert.
+		
+		
+Mehrfachvererbung
+	Aufruf der Konstruktoren erfolgt in der Initialisierungsliste, in der Reihenfolge der Ableitungsdeklaration
+	Problem: Wenn eine Klasse mehrfach vererbt wird entsteht Mehrdeutigkeit
+		Lösung: Vor dem mehrdeutigen Element wird der Klassenname vorangestellt
+			c.D1::m_i = 13;
+			c.D2::doit();	
+			
+
+Ausnahmebehandlung
+	try { ...} gefolgt von (mehreren)
+	catch (<Ausnahmetyp>) { ... }
+	throw <Ausnahme>
+	
+	Als throw kann fast alles geworfen werden
+	
+	Beispiel: (Bei Fehler wird 12 ausgegeben)
+		int test(int i) {
+			if(i != 0)
+				return 17 / i;
+			else
+				throw 12;
+		}
+		
+		int main() {
+			try {
+				cout << test(13) << endl;
+				cout << test(0) << endl;
+			} catch (int j) {
+				cout << "ein Fehler; Fehlercode: " << j << endl;							
+			}
+			return 0;
+		}
+		
+Header und Implementierung
+	Verhinderung dass Headerdatei mehrfach eingeladen wird
+		#ifndef _A_
+			Wenn Variable _A_ nicht definiert
+		#define _A_ 
+			Dann definiere sie
+		Headercontent	
+		#endif
+			Sonst ist datei leer		
+		
+
+Namespaces
+	namespace <name> { ... }
+		alles in geschweifte Klammer ist im namespace name deklariert
+	<name>::
+		Zugriff auf Elemente im namespace
+	Namespace niemals in Headerdatei öffnen
+	
+	
+Macros
+	#define juhu 17
+		jetzt wird überall wo juhu geschrieben wird es durch 17 ersetzt
+	andere Beispiele
+		#define juhu(17) toll(17)
+		MAX(x,y) (x > y ? x : y)	
+			
+			
+Templates
+	Beispiel:
+		template<class T>
+		class List {
+			struct ListElem {
+				ListeElem {
+					ListeElem(T iElem, ListElem* pNext) :
+					m_pNext(pNext)
+					m_iCont(iElem) {}
+					
+					friend ostream& operator<<(ostream& os, const ListElem& crArg) {
+						os << " " << crArg.m_iCont;
+						if (crArg.m_pNext)
+							os << *crArg.m_pNext;
+						return os;
+					}
+					
+					ListElem* m_pNext;
+					T m_iCont;
+					};
+					
+		public:
+			List() : m_pRoot(0) {}
+			
+			friend ostream& operator<<(ostream& os, const ListElem& crArg) {
+				os << " " << crArg.m_iCont;
+				if (crArg.m_pNext)
+					os << *crArg.m_pNext;
+				return os;
+			}
+			
+			void push_front(T iElem) {
+				m_pRoot = new ListElem(iElem, m_pRoot);
+			}
+			
+		private:
+			ListElem* m_pRoot;
+		};
+		
+		int main() {
+		List<int> l;
+		l.push_front(12);
+		l.push_front(23);	
+		
+		
+Wird Liste von unsigned angelegt und int abgespeichert wird konvertiert	
+Templates können beliebig viele Parameter besitzen
+	template<class T1, class T2>
+	struct Pair {
+	Pair(T1 t1, T2 t2) : m_t1(t1), m_t2(t2) {}
+	Pair() {}
+	T1 m_t1;
+	T2 m_t2;
+	};
+	
+	int main() {
+	Pair<int, char> p1, p2(17,'c');
+	cout << p1.m_t1 << p1.m_t2 << endl;
+	cout << p2.m_t1 << p2.m_t2 << endl;	
+	
+Wenn fehlerhafter Code nicht verwendet ist alles OK bei templates und gibt kein Error aus
+	Syntaxfehler gehen trotzdem nicht
+Parameter in Templates können auch konstant sein, müssen konstant zur Compilezeit sein	
+			
+										
+		
+				
+			
 				
