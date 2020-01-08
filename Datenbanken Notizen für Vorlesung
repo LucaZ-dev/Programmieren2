@@ -1,0 +1,137 @@
+CREATE TABLE tabelle
+	(
+		spalte typ (NOT NULL),
+		spalte typ (NOT NULL),
+		... ... ...,
+		PRIMARY KEY (spalte)
+		FOREIGN KEY (spalte) REFERENCES fremde_tabelle (spalte)
+	);
+	
+INSERT INTO
+	tabelle
+		(spalte0, spalte1, ...)
+	VALUES
+		('WERT0', 'WERT1', ...);
+		
+		
+Fremdschlüssel
+	Bei 1:N-Beziehungen wird der Primärschlüssel der 1er Tabelle als Fremdschlüsel in die Ner Tabelle übernommen
+	Bei 1-1-Beziehungen wird der Primärschlüssel einer 1er Tabelle als Fremdschlüssel der anderen Tabelle übernommen (nicht beide)
+	Bei N-M-Bzeiehungen wird eine neue Tabelle mit den Primärschlüsseln erstellt
+		
+UPDATE tabelle		
+	SET spalte = 'WERT' {, spalte = 'WERT'}
+		[WHERE bedingung]
+				
+DELETE FROM tabelle
+	[WHERE bedingung]	
+	
+ORDER BY spalte {, spalte}
+
+Standardsortierung ASCENDING
+
+Aggregatfunktionen	
+	COUNT(*)
+		Anzahl der Tupel
+	COUNT(attr)
+		Anzahl der Tupel ohne Null für attr
+	COUNT(DISTINCT attr)
+		Anzahl der verschiedenenen Tupel ohne Nul für attr
+	SUM(attr)
+		Summe der Werte von attr (nur numerische Werte)
+	AVG(attr)
+		Durchschnitt der Werte von attr (nur numerische Werte)
+	MIN(attr), MAX(attr)
+		Minimum bzw. Maximum der Werte von attr
+		
+
+GROUP BY spalte {, spalte}
+
+LIMIT {count | ALL}
+OFFSET	start
+	
+HAVING bedingung
+
+SELECT spalten
+FROM tabelle
+WHERE bedingungen
+GROUP BY spalte {, spalte}
+HAVING bedingung
+ORDER BY spalten-ausdruck [ASC | DESC]
+
+
+SELECT [] from [] UNION Select [] from []
+SELECT [] from [] INTERSECT Select [] from []
+SELECT [] from [] EXCEPT Select [] from []
+
+SELECT spalten
+	FROM Tabelle_1
+		INNER JOIN
+		Tabelle_2
+	ON/WHERE Bedingung
+
+Select spalten
+	From tabelle_1
+		NATURAL JOIN		
+		tabelle_2
+	
+Select spalten
+	From tabelle_1
+		INNER JOIN
+		tabelle_2
+		ON spalte = spalte	
+		
+Select spalte
+	From tabelle as [Variable]
+	CROSS JOIN tabelle as [Variable]
+	
+AS um Spalte einen Alias zuzuweisen			
+		
+Select spalten
+	from tabelle_1
+	LEFT/RIGHT/FULL JOIN tabelle_2
+		on spalte_1 = spalte_2		
+		
+Unterabfrage 
+	Beispiel:
+		SELECT mk.vorname, mk.nachname, (SELECT bundesland from plz WHERE mk.plz = plz) AS bundesland FROM meine_kontakte mk;
+			Spaltenname Bundesland eingerichtet	
+			
+IN
+	Beispiel: 
+		SELECT * FROM customers c WHERE c.zipcode IN (74562, 82963, 77423, 82763, 10377);				
+		
+		
+		
+		
+Normalisierung
+	Erste Normalform
+		Jede Zeile muss atomare Werte enthalten
+		Jede Zeile muss Primary Key haben
+			Nicht Null
+			Muss angegeben werden wenn Datensatz eingefügt wird
+			Muss kompakt sein
+			Kann nicht verändert werden
+			
+		Durchführung:
+			Für jede Wiederholungsgruppe eine seperate Tabelle
+			Nicht-atomare Attribute in alten Tabelle auflösen
+			Einen Primary Key festlegen für die Ausgangstabelle
+			Primary Key in der neu angelegte Tabelle aufnehmen
+				
+	Zweite Normalform
+		Erste Normalform + Nichtschlüsselattribute voll funktional abhängig vom Primary Key
+		
+		Durchführung:
+			Entferne Attribute die nicht funktional vom Primarykey abhängig sind
+			Entfernte Attribute in neuer Tabelle zusammenfassen, Attribute von einer bestimmten Grupe von Schlüsselattributen bilden gesonderte Tabelle
+			Primary Keys werden den neuen Tabellen hinzugefügt
+			
+	Dritte Normalform
+		Zweite Normalform + Nichtschlüsselattribute transitiv abhängig vom Primärschlüssel
+		
+		Durchführung:
+			Entfernen der Attribute die nicht transitiv abhängig sind
+			Anlegen neuer Tabelle mit entfernten Attributen, Attribute die vom selben Nichtschlüsselattribut abhängig sind in eine Tabelle
+			Hinzufügen Nichtschlüsselattribute als Key in neuer Tabelle
+			
