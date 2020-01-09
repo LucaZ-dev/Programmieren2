@@ -261,27 +261,79 @@ Templates
 		l.push_front(23);	
 		
 		
-Wird Liste von unsigned angelegt und int abgespeichert wird konvertiert	
-Templates können beliebig viele Parameter besitzen
-	template<class T1, class T2>
-	struct Pair {
-	Pair(T1 t1, T2 t2) : m_t1(t1), m_t2(t2) {}
-	Pair() {}
-	T1 m_t1;
-	T2 m_t2;
-	};
-	
-	int main() {
-	Pair<int, char> p1, p2(17,'c');
-	cout << p1.m_t1 << p1.m_t2 << endl;
-	cout << p2.m_t1 << p2.m_t2 << endl;	
-	
-Wenn fehlerhafter Code nicht verwendet ist alles OK bei templates und gibt kein Error aus
-	Syntaxfehler gehen trotzdem nicht
-Parameter in Templates können auch konstant sein, müssen konstant zur Compilezeit sein	
-			
-										
+	Wird Liste von unsigned angelegt und int abgespeichert wird konvertiert	
+	Templates können beliebig viele Parameter besitzen
+		template<class T1, class T2>
+		struct Pair {
+		Pair(T1 t1, T2 t2) : m_t1(t1), m_t2(t2) {}
+		Pair() {}
+		T1 m_t1;
+		T2 m_t2;
+		};
 		
-				
+		int main() {
+		Pair<int, char> p1, p2(17,'c');
+		cout << p1.m_t1 << p1.m_t2 << endl;
+		cout << p2.m_t1 << p2.m_t2 << endl;	
+		
+	Wenn fehlerhafter Code nicht verwendet ist alles OK bei templates und gibt kein Error aus
+		Syntaxfehler gehen trotzdem nicht
+	Parameter in Templates können auch konstant sein, müssen konstant zur Compilezeit sein	
+		Konstante wird im Code (Compiler) gemerkt, nicht im Objekt
+		Standardwerte in Templates
+			template<class T = fload, unsigned int length = 17>
+		
+		
+Streams
+	cout, cin, cerr in namespace std
+		besitzen Zustand
+			Zustand kann mittels setf verändert werden
+				Integer
+					cout.setf(ios_base::hex,ios_base::basefield);
+						Zahl in hex ausgegeben
+					cout.setf(ios_base::oct,ios_base::basefield);		
+						Zahl in oct ausgegeben
+					cout.setf(ios_base::showbase);
+						Ausgegeben mit führenden Nullen
+			Zustand rückgängig mit unsetf
+				Gleitkommazahlen
+					cout.setf(ios_base::scientific,ios_base::floatfield);		
+					cout.setf(ios_base::fixed,ios_base::floatfield);
+					cout.setf(ios_base::showpoint,ios_base::floatfield);
+				Boolean
+					cout.setf(ios_base::boolalpha);
 			
+		Manipulatoren
+			cout.width(20)
+				Nächste Ausgabe soll Breite 20 haben
+			cout << f << endl << scientific << f << endl << f << endl << fixed << f << endl;
+				scientific, fixed sind Manipualtoren
+			cout << left << b << "." << endl << boolalpha << b << endl;
+				left, boolalpha sind Manipulatoren				
+	
+	Ausgabe in Dateien
+		ofstream
+			Abgeleitet von ostream
+			cout ist ein ostream
+	Einlesen von Dateien
+		ifstream
+			Abgeleitet von istream
+			cin ist ein istream
+			Methode eof() gibt bekannt wenn Ende der Datei erreicht ist
+				wenn einlesen erfolgreich dann true zurückgegeben
+			get(char&) kann einzelne Character einlesen	
+	Lesen und Schreiben
+		fstream
+			ist ofstream & ifstream
+	Konstruktoren bekommen Dateinamen übergeben
+	Stream kann mit close geschlossen werden
+	Wenn Destruktor ausgeführt, wird Stream geschlossen
+	Wenn Datei nicht geöfnet werden kann wird Objekt auf bad gesetzt
+		if (datei) gibt false aus wenn Objekt bad ist	
+	Schreiben auf Datei wird gepuffert
+		flush und endl forcieren das Schreiben und leeren den buffer
+				
+									
+				
+				
 				
